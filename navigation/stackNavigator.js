@@ -8,11 +8,12 @@ import homeScreen from '../screens/homeScreen';
 import bottomTab from '../screens/bottomTab';
 import settings from '../screens/settings';
 import privacyPolicy from '../screens/privacyPolicy'
-import faq from '../screens/bottomTab';
+import faq from '../screens/faq';
 import profile from '../screens/profile';
 import address from '../screens/address';
 import AddAddressScreen from '../screens/AddAddressScreen';
-
+import orderScreen from '../screens/orderScreen'
+import confirmation from '../screens/confirmation';
 
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +33,8 @@ const StackNavigator = () => {
            <Stack.Screen  name="AddAddress" component={AddAddressScreen}/>
             <Stack.Screen name="address" component={address} /> 
             <Stack.Screen name="orderScreen" component={orderScreen} />
+            <Stack.Screen name="confirmation" component={confirmation} />
+
 
 
         </Stack.Navigator>
