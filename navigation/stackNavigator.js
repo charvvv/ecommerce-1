@@ -14,6 +14,7 @@ import address from '../screens/address';
 import AddAddressScreen from '../screens/AddAddressScreen';
 import orderScreen from '../screens/orderScreen'
 import confirmation from '../screens/confirmation';
+import productInfo from '../screens/productInfo'
 
 
 const Stack = createNativeStackNavigator();
@@ -34,7 +35,7 @@ const StackNavigator = () => {
             <Stack.Screen name="address" component={address} /> 
             <Stack.Screen name="orderScreen" component={orderScreen} />
             <Stack.Screen name="confirmation" component={confirmation} />
-
+            <Stack.Screen name="productInfo" component={productInfo} />
 
 
         </Stack.Navigator>
