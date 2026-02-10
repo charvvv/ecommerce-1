@@ -1,7 +1,17 @@
 import { View, Text, SafeAreaView, ScrollView, Pressable, Platform, Image, TextInput } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { AntDesign, Feather } from '@expo/vector-icons';
 import axios from "axios"
+import { useNavigation } from '@react-navigation/native';
+import {userType} from "../userContext";
+import { useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import jwt_decode from "jwt-decode";
+import ProductItem from "../components/productItem";
+import {SliderBox} from "react-native-image-slider-box";
+import DropDownPicker from "react-native-dropdown-picker";
+
+
 
 
 const HomeScreen = () => {
@@ -178,7 +188,25 @@ const HomeScreen = () => {
     },
   ];
 
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
+  const navigation = useNavigation();
+  const [open, setOpen] = useState(false);
+  const [addresses, setAddresses] = useState([]);
+  const [category, setCategory] = useState("jewelry");
+  const {userId, setUserId} = useContext(userType);
+  const [selectedAddress, setSelectedAddress] = useState("");
+  console.log(selectedAddress);
+  const [items, setItems] = useState([
+    {label: "Men's Clothing", value: "Men's Clothing"},
+    {label: "Jewelry", value: "Jewelry"},
+    {label: "Electronics", value: "Electronics"},
+    {label: "Women's Clothing", value: "Women's Clothing"}
+
+
+  ]);
+
+
+
 
   useEffect(()=>{
     const fetchData = async()=>{
@@ -190,7 +218,42 @@ const HomeScreen = () => {
       }
     }
     fetchData();
-  }, [])
+  }, []);
+
+  const cart = useSelector((state)=>state.cart.cart);
+  const [modelVisible, setModelVisible] = useState(false);
+  useEffect(()=>{
+    if (userId) {
+      fetchAddresses();
+
+    }
+  }, [userId, modelVisible]);
+  const fetchAddresses = async()=>{
+    try {
+      const response = await axios.get(`http://localhost:8081/addresses/${userId}`);
+      const {addresses} = response.data;
+      setAddresses(addresses); 
+
+    }
+    catch(error) {
+      console.log("error", error);
+      
+    }
+  };
+  useEffect(()=>{
+    const fetchUser = async()=>{
+      const token = await AsyncStorage.getItem("authToken");
+      const decodedToken = jwt_decode(token);
+      const userId = decodedToken.userId;
+      setUserId(userId);
+
+    };
+    fetchUser();
+
+  }, []);
+
+  console.log("addresses", addresses);
+
 
 
   return (
@@ -239,6 +302,22 @@ const HomeScreen = () => {
                     </Pressable>
                 ))}
             </ScrollView>
+        <Text style={{height: 1, borderColor: "#D0D0D0", borderWidth: 2, marginTop: 15}}>
+              
+        </Text>
+        <View style={{marginHorizontal: 10, marginTop: 20, width: "45%", marginBottom: open?120:15}}>
+          <DropDownPicker style={{borderColor: "#B7B7B7", height: 30, marginBottom: open?120:15}}
+            open = {open} 
+            value = {category}
+            items = {items}
+            setOpen = {setOpen}
+            setValue = {setCategory}
+            setItems = {setItems}
+            placeholder = {chooseCategory}
+
+            
+            />
+        </View>
         </View>
 
         <View
