@@ -13,7 +13,6 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 
 
-
 const HomeScreen = () => {
   const list = [
     {
@@ -276,7 +275,15 @@ const HomeScreen = () => {
           ))}
         </ScrollView>
         
-     
+        <SliderBox
+         images = {images}
+         autoPlay
+         circleLoop
+         imageComponentStyle = {{width: "100%"}}
+         dotColor = {"#13274F"}
+         inactiveDotColor = {"#90A4AE"}
+
+         />
 
         <View style={{ marginVertical: 10 }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', marginHorizontal: 10 }}>Trending Deals of the Week</Text>
@@ -313,11 +320,13 @@ const HomeScreen = () => {
             setOpen = {setOpen}
             setValue = {setCategory}
             setItems = {setItems}
-            placeholder = {chooseCategory}
+            placeholder = "Choose Category"
+
 
             
             />
         </View>
+        
         </View>
 
         <View
