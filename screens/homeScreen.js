@@ -1,6 +1,6 @@
-import { View, Text, SafeAreaView, ScrollView, Pressable, Platform, Image, TextInput } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, Pressable, Platform, Image, TextInput, TouchableOpacity } from 'react-native'
 import React, {useState, useEffect, useContext} from 'react'
-import { AntDesign, Feather } from '@expo/vector-icons';
+import { AntDesign, Entypo, Feather, Ionicons } from '@expo/vector-icons';
 import axios from "axios"
 import { useNavigation } from '@react-navigation/native';
 import {userType} from "../userContext";
@@ -10,6 +10,8 @@ import jwt_decode from "jwt-decode";
 import ProductItem from "../components/productItem";
 import {SliderBox} from "react-native-image-slider-box";
 import DropDownPicker from "react-native-dropdown-picker";
+import { BottomModal, SlideAnimation, ModalContent } from "react-native-modals";
+
 
 
 
@@ -341,6 +343,63 @@ const HomeScreen = () => {
           ))}
         </View>        
       </ScrollView>
+      <BottomModal onBackdropPress={()=>setModelVisible(!modelVisible)}
+      swipeDirection={["up", "down"]}
+      swipeThreshold={200}
+      modelAnimation={
+        new SlideAnimation({
+          slideFrom: "bottom"
+        })
+      } 
+      onHardwareBackPress={()=>setModelVisible(!modelVisible)}
+      visible={modelVisible}
+      onTouchOutside={()=>setModelVisible(!modelVisible)}>
+        <ModalContent style={{width: "100%", height: 400}}>
+          <View style={{marginBottom: 8}}>
+            <Text style={{fontSize: 16, fontWeight: 500}}>Choose Your Location</Text>
+            <Text style={{marginTop: 10, fontSize: 16, color: "gray"}}>Select A Delivery Location To See Product Availability & Delivery Options</Text>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator = {false}>
+            {addresses?.map((item, index)=>(
+              <TouchableOpacity onPress={()=>setSelectedAddress(item)} 
+              style={{width: 140, height: 140, borderColor: "#D0D0D0", borderWidth: 1, padding: 10, gap: 3, justifyContent: "center", alignItems: "center", marginTop: 10, backgroundColor: selectedAddress=== item?"#FBCEB1":"white"}}>
+                <View style={{flexDirection: "row", alignItems: "center", gap: 3}}>
+                  <Text style={{fontSize: 13, fontWeight: "bold"}}>{item.name}</Text>
+                  <Entypo name="location-pin" size= {24} color="red"/>
+                </View>
+                <Text style={{fontSize: 13, textAlign: "center", width: 130}} numberOfLines={1}>{item?.houseNumber}, {item?.landmark}</Text>
+                <Text style={{fontSize: 13, textAlign: "center", width: 130}} numberOfLines={1}>{item?.street}</Text>
+                <Text style={{fontSize: 13, width: 130, textAlign: "center"}} numberOfLines={1}>Texas, USA</Text>
+
+              </TouchableOpacity>
+
+            ))}
+            <TouchableOpacity onPress={()=>{navigation.navigate("address");
+              setModelVisible(false);
+            }} style={{width: 140, height: 140, borderColor: "#D0D0D0", borderWidth: 1, marginTop: 10, padding: 10, justifyContent: "center", alignItems: "center"}}>
+              <Text style={{fontSize: 18, color: "#0066B2", textAlign: "center", fontWeight: "bold"}}>Add an Address or Pickup Point</Text>
+            </TouchableOpacity>
+            
+          </ScrollView>
+          <View style={{flexDirection: "column", gap: 7, marginBottom: 30}}>
+            <View style={{flexDirection: "row", alignItems: "center", gap: 5}}>
+              <Entypo name="location-pin" size={24} color="red" />
+              <Text style={{color: "#0066B2", fontWeight: "bold"}}>
+                Enter a Pin Code
+              </Text>
+            </View>
+            <View style={{flexDirection: "row", alignItems: "center", gap: 5}}>
+
+              <Ionicons name="locate-sharp" size={24} color="#0066B2"/>
+              <Text style={{color: "#0066B2", fontWeight: "bold"}}>Use my Current Location</Text>
+            </View>
+            <View style={{flexDirection: "row", textAlign: "center", gap: 5}}>
+              <AntDesign name="earth" size={24} color="#0066B2"/>
+              <Text style={{color: "#0066B2", fontWeight: "bold"}}>Deliver outside the US</Text>
+            </View>
+          </View>
+        </ModalContent>
+      </BottomModal>
     </SafeAreaView>
   )
 }
