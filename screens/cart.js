@@ -25,8 +25,10 @@ const CartScreen = () => {
   }
   const navigation = useNavigation();
 
+  const cart1 = useSelector
+
   return (
-    <ScrollView>
+    <ScrollView>  
       <View style={{backgroundColor: "#00CED1", padding: 10, flexDirection: "row", alignItems: "center" }}>
         <Pressable style ={{flexDirection: "row", alignItems: "center", marginHorizontal: "center", gap: 10, backgroundColor: "white", borderRadius: 3, height: 38, flex: 1}}>
           <AntDesign style ={{paddingLeft: 10}} name= "search1" size= {22} color = "black" /> 

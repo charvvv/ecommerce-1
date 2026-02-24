@@ -3,7 +3,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import { AntDesign, Entypo, Feather, Ionicons } from '@expo/vector-icons';
 import axios from "axios"
 import { useNavigation } from '@react-navigation/native';
-import {userType} from "../userContext";
+import {UserType} from '../userContext';
 import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from "jwt-decode";
@@ -194,7 +194,7 @@ const HomeScreen = () => {
   const [open, setOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [category, setCategory] = useState("jewelry");
-  const {userId, setUserId} = useContext(userType);
+  const {userId, setUserId} = useContext(UserType);
   const [selectedAddress, setSelectedAddress] = useState("");
   console.log(selectedAddress);
   const [items, setItems] = useState([

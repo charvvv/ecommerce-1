@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/CartReducer";
+import { addToCart } from "../redux/cartReducer";
 
 const ProductItem = ({ item }) => {
   const [addedToCart, setAddedToCart] = useState(false);
